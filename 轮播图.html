@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>轮播图</title>
+        <meta charset="utf-8">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            li {
+                list-style: none;
+            }
+            .container {
+                width: 950px;
+                height: 500px;
+                margin: 50px auto;
+                position: relative;
+                border: 1px solid #f10215;
+                padding: 8px;
+            }
+            .screen {
+                width: 950px;
+                height: 500px;
+                position: relative;
+                overflow: hidden;
+            }
+            .screen ul {
+                width: 999999px;
+                position: relative;
+            }
+            .screen ul li {
+                float: left;
+            }
+            .screen li img {
+                align-items: center;
+            }
+            .screen ol {
+                position: absolute;
+                bottom: 10px;
+                right: 0px;
+            }
+            .screen ol li {
+                width: 30px;
+                height: 30px;
+                background-color: #fff;
+                margin-right: 10px;
+                float: left;
+                line-height: 30px;
+                text-align: center;
+                border-radius: 50%;
+                opacity: 0.7;
+                box-sizing: border-box;
+                border: 2px solid hotpink;
+                cursor: pointer;
+            }
+            .arrowL {
+                position: absolute;
+                top: 50%;
+                left: 9px;
+                background-color: #ccc;
+                opacity: 0.7;
+                transform: translateY(-50%);
+                width: 30px;
+                height: 80px;
+                line-height: 80px;
+                text-align: center;
+                font-size: 40px;
+                border-radius: 0 50% 50% 0;
+                font-weight: 100;
+                cursor: pointer;
+                display: none;
+            }
+            .arrowR {
+                position: absolute;
+                top: 50%;
+                right: 9px;
+                background-color: #ccc;
+                opacity: 0.7;
+                transform: translateY(-50%);
+                width: 30px;
+                height: 80px;
+                line-height: 80px;
+                text-align: center;
+                font-size: 40px;
+                border-radius: 50% 0 0 50%;
+                font-weight: 100;
+                cursor: pointer;
+                display: none;
+            }
+            .current {
+                background-color: orangered !important;
+                opacity: 1 !important;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container" id="container">
+            <div class="screen">
+                <ul>
+                    <li><img src="ad/ad1.jpg"</li>
+                    <li><img src="ad/ad2.jpg"</li>
+                    <li><img src="ad/ad3.jpg"</li>
+                    <li><img src="ad/ad4.jpg"</li>
+                    <li><img src="ad/ad5.jpg"</li>
+                </ul>
+                <ol>
+                </ol>
+            </div>
+            <div id="arrow"><span class="arrowL" id="arrowL">&lt;</span><span class="arrowR" id="arrowR">&gt;</span></div>
+        </div>
+        <script src="common.js"></script>
+        <script src="animate.js"></script>
+        <script>
+            var container = document.getElementById('container');
+            var screen = container.children[0];
+            var ul = screen.children[0];
+            var ol = screen.children[1];
+            var arrowL = document.getElementById('arrowL');//左箭头
+            var arrowR = document.getElementById('arrowR');//右箭头
+            var count = ul.children.length;//图片数目
+			var imageWidth = screen.offsetWidth;//图片宽度
+            for (var i = 0; i < count; i++) {//根据图片的数量动态设置索引的数量
+                var li = document.createElement('li');
+                ol.appendChild(li);
+                setInnerText(li, i + 1);
+                if (i === 0) {//让第一个序号默认高亮
+                    li.className = 'current';
+                }
+                li.onclick = liClick;//注册点击事件，让选中的索引高亮，点击相应的序号，滑动到对应的图片
+                li.setAttribute('index', i);
+            }
+            function liClick() {//让选中的索引高亮，点击相应的序号，滑动到对应的图片
+                for (var i = 0; i < ol.children.length; i++) {
+                    ol.children[i].className = '';
+                    this.className = 'current';
+                    var liIndex = parseInt(this.getAttribute('index'));
+					animate(ul, -liIndex * imageWidth);
+					index = liIndex;//让全局变量index=局部变量liIndex 解决bug:通过序号点击最后一张图，在点击下一张时，会切换到第二张图
+                }
+            }
+            container.onmouseenter = function () {//鼠标移入箭头出现
+                arrowL.style.display = 'block';
+				arrowR.style.display = 'block';
+				clearInterval(timer);//鼠标移入清除定时器<!--一开始无法清除定时器，发现是与设置的定时器接收变量与引入的animate.js文件内的timerId变量重名了，简直太艹了-->
+            }
+            container.onmouseleave = function () {//鼠标移出箭头消失
+                arrowL.style.display = 'none';
+				arrowR.style.display = 'none';
+				timer = setInterval(function () {//设置定时器，让其进入自动轮播模式
+					arrowR.click();
+				}, 2000);
+            }
+             var index = 0;//让进入页面的第一张图索引记为0<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+            arrowR.onclick = function () {
+				if (index === count) {//判断当前图片是否是克隆体，如果是则让ul瞬移到当前位置，实现无缝衔接
+					ul.style.left = '0px';
+					index = 0;//当图片瞬移回来时，将标志位也归零
+				}
+				index++
+				if (index < count){
+					animate(ul, -imageWidth*index);
+					ol.children[index].click();//根据index值找到当前显示图片对应的序号并用click方法让其主动触发事件	
+				}else {
+					animate(ul, -index * imageWidth);//让ul中的最后一张图片（不算克隆体）移动到尾部的克隆体处index=5
+					for (var i = 0; i < ol.children.length; i++){
+						var li = ol.children[i];
+						li.className = '';
+					}
+					ol.children[0].className = 'current';
+				}
+            }
+            arrowL.onclick = function () {
+				if (index === 0) {
+					ul.style.left = -count*imageWidth +'px';
+					index = 5;
+				}
+					index--;
+					animate(ul, -imageWidth*index);
+					ol.children[index].click();//根据index值找到当前显示图片对应的序号并用click方法让其主动触发事件
+			}
+			//实现无缝滚动的原理是在图片的尾部添加上第一张图片的克隆体，在最后点击一张图片时，让其滚动到克隆体上，再点击按钮时，直接把ul坐标改变到此处
+			var firstLi = ul.children[0];//获取ul中的第一个li
+			var coneLi = firstLi.cloneNode(true);//克隆ul中的第一个li,cloneNode(可选参数true/false),true将克隆其内容，false不复制
+			ul.appendChild(coneLi);//把克隆的li添加到ul的尾部
+			var timer = setInterval(function () {//设置定时器，让其进入自动轮播模式
+				arrowR.click();
+			}, 2000);
+        </script>
+    </body>
+</html>
