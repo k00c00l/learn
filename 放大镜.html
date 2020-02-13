@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>放大镜</title>
+        <meta charset="utf-8">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            .box {
+                height: 300px;
+                width: 300px;
+                margin: 100px;
+                position: relative;
+            }
+            .mask {
+                width: 100px;
+                height: 100px;
+                top: 0;
+                left: 0;
+                position: absolute;
+                background-color: pink;
+                opacity: 0.75;
+                display: none;
+                cursor: move;
+            }
+            .big {
+                width: 350px;
+                height: 350px;
+                position: absolute;
+                top: 0;
+                right: -360px;
+                overflow: hidden;
+                display: none;
+            }
+            .big img {
+                position: absolute;
+            }
+            .small {
+                position: relative;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="box" id="box">
+            <div class="small">
+                <img src="images/jojo.jpg" width="300px" height="300px">
+                <div class="mask"></div>
+            </div>
+            <div class="big">
+                <img src="images/jojo.jpg" width="640px" height="640px">
+            </div>
+        </div>
+        <script src="common.js"></script>
+        <script>
+            var box = document.getElementById('box');
+            var smallBox = box.children[0];
+            var bigBox = box.children[1];
+            var samllImage = smallBox.children[0];
+            var mask = smallBox.children[1];
+            var bigImage = bigBox.children[0];
+
+            box.onmouseenter = function () {
+                mask.style.display = 'block';
+                bigBox.style.display = 'block';
+            }
+            box.onmouseleave = function () {
+                mask.style.display = 'none';
+                bigBox.style.display = 'none';
+            }
+            box.onmousemove = function (e) {
+                e = e || window.event;
+                var maskX = getPage(e).pageX - box.offsetLeft;
+                var maskY = getPage(e).pageY - box.offsetTop;
+                maskX = maskX - mask.offsetWidth / 2;
+                maskY = maskY - mask.offsetTop / 2;
+                maskX =  maskX < 0 ? 0 : maskX;
+                maskY = maskY < 0 ? 0 : maskY;
+                maskX = maskX < box.offsetWidth - mask.offsetWidth ? maskX : box.offsetWidth - mask.offsetWidth;
+                maskY = maskY < box.offsetHeight - mask.offsetHeight ? maskY : box.offsetHeight - mask.offsetHeight;
+                mask.style.left = maskX + 'px';
+                mask.style.top = maskY + 'px';
+                //大图和小图的可移动最大距离与盒子的宽度或高度是 成比例的，由此可计算出大图移动的距离
+                var maskMax = box.offsetWidth - mask.offsetWidth;
+                var bigImageMax = bigImage.offsetWidth -bigBox.offsetWidth;
+                var bigImageX = maskX * bigImageMax / maskMax;
+                var bigImageY = maskY * bigImageMax / maskMax;
+                bigImage.style.left = -bigImageX + 'px';
+                bigImage.style.top = -bigImageY + 'px';
+            }
+        </script>
+    </body>
+</html>

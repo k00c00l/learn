@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>拖拽</title>
+        <meta charset="utf-8">
+        <style>
+            * {
+                margin: 0;
+                height: 0;
+            }
+            body {
+                background-color: #ccc;
+            }
+            #container {
+                position: absolute;
+                width: 300px;
+                height: 350px;
+                top: 200px;
+                left: 500px;
+            }
+            #boxHead {
+                width: 300px;
+                height: 30px;
+                border: 1px solid #ccc;
+                box-sizing: border-box;
+                position: absolute;
+                top: 0px;
+                font-size: 14px;
+                color: #fff;
+                background-color: pink;
+                text-align: center;
+                line-height: 30px;
+                cursor: move;
+            }
+            #box {
+                width: 300px;
+                height: 300px;
+                border: 1px solid #ccc;
+                box-sizing: border-box;
+                position: absolute;
+                top: 30px;
+                background-color: skyblue;
+                text-indent: 30px;
+            }
+            #btn {
+                width: 40px;
+                height: 20px;
+                position: absolute;
+                top: 0;
+                right: 0;
+                line-height: 20px;
+                text-align: center;
+                cursor: pointer;
+                border: 1px solid black;
+                outline: none;
+                background-color: hotpink;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container">
+            <div id="boxHead">点击此处可拖动<input type="button" value="关闭" id="btn"></div>
+            <div id="box">慢点，慢点，我要吐了</div>
+        </div>
+        <script>
+            var boxHead = document.getElementById('boxHead');
+            var container = document.getElementById('container');
+            var btn = document.getElementById('btn');
+            //最终效果让盒子的跟随鼠标移动，鼠标在盒子中的坐标等于当前鼠标在页面中的坐标减去当前盒子在页面中的坐标
+            //最终盒子的坐标等于当前鼠标在页面中的坐标将去鼠标在盒子中的坐标
+            boxHead.onmousedown = function (e) {//当鼠标按下时获取鼠标在盒子的中坐标
+                var X = e.pageX - container.offsetLeft;//鼠标在盒子中的X坐标
+                var Y = e.pageY - container.offsetTop;//鼠标在盒子中的Y坐标
+                document.onmousemove = function (e) {//当盒子移动的时候，让盒子的坐标与当前鼠标的坐标相同
+                    var pageX = e.pageX - X;
+                    var pageY = e.pageY - Y;
+                container.style.left = pageX + 'px';
+                container.style.top = pageY + 'px';
+            }
+            }
+            boxHead.onmouseup = function () {
+                document.onmousemove = null;//移除事件就是让事件为null
+                //boxHead.onmousedown = null;
+            }
+            btn.onclick =function () {
+                container.style.display = 'none';
+            }
+        </script>
+    </body>
+</html>
