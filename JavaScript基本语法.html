@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>jstest</title>
+        <meta charset="utf-8">
+        <script>
+
+           /* function getFib(n) {//求第n个斐波那契数
+                var n1 = 1;
+                var n2 = 1;
+                var n3 = 0;
+                for (var i=3; i<=n; i++) {
+                    n3 = n1 + n2;
+                    n1 = n2;
+                    n2 = n3;
+                }
+                return n3;
+            }
+            var msg = getFib(5);
+            console.log(msg);*/
+
+            /*function changeArray(arr) {//翻转数组
+                var newArray = [];
+                for(var i = arr.length - 1; i>= 0; i--) {
+                    newArr[newArray.length] = arr[i];
+                }
+                return newArr;
+            }
+            var oldArray = [1,2,3,4,5];
+            var msg = changeArray(oldArray);
+            console.log(msg);*/
+//___________________________我是分割线 _________________________________
+            /*function sort(array) {//冒泡排序
+                for(var i = 0; i < array.length - 1; i++) {//外层循环控制趟数
+                    var isSort = true;//检测是否排好
+                    for(var j = 0; j < array.length - 1 - i; j++) {//内层循环控制每一趟比较的次数
+                        if(array[j] > array[j+1]) {
+                            isSort = false;
+                            var temp = array[j];
+                            array[j] = array[j+1];
+                            array[j+1] = temp;
+                        }
+                    }
+                    if(isSort) {
+                        break;
+                    }
+                }
+                return array;
+            }
+            var oldArray = [5,4,3,2,1];
+            var msg = sort(oldArray);
+            console.log(msg);*/
+//___________________________我是分割线 _________________________________
+            /*function judge(year) {
+                var result = false;//假设不是闰年
+                if(year % 4 === 0 && year % 100 !== 0 || year % 400 === 0) {
+                    result = true;
+                }
+                return result;
+            }
+            console.log(judge(2008));*/
+
+            /*function judgeRun(year) {//判断是否为闰年
+                    var result = false;//假设不是闰年
+                    if (year % 4 === 0 && year % 100 !== 0 || year % 400 === 0) {
+                        result = true;
+                    }
+                    return result;
+                }
+            function judgeDays(year,month,day) {//输入年，月，日判断当天是一年中的第几天
+                var days = day;//当前月份的号数即为当前月份的天数
+                for(var i = 1; i < month; i++) {
+                    switch(i) {
+                        case 1:
+                        case 3:
+                        case 5:
+                        case 7:        
+                        case 8:
+                        case 10:
+                        case 12:
+                            days += 31;
+                            break;
+                        case 4:
+                        case 6:
+                        case 9:
+                        case 11:
+                            days += 30;
+                            break;
+                        case 2:
+                            if(judgeRun(year)) {//判断2月份的天数，需要先判断该年份是否为闰年，及调用函数judgeRun()
+                                days += 29;
+                            }else {
+                                days += 28;
+                            }
+                            break
+                    }
+                }
+                return days;
+            }
+            console.log(judgeDays(2020,2,8));*/
+
+            /*{
+                var name = '朱银';
+            }
+            console.log(name);//js暂无块级作用域*/
+            /*function getSum() { //任意个数的数求和（无参）
+                var sum = 0;
+                for (var i = 0; i < arguments.length; i++) {
+                    sum += arguments[i];
+                }
+                return sum;
+            }
+            console.log(getSum(1,2,3,4,5))*/
+
+            /* 字面量创建对象var hero = {
+                name: '盖伦',
+                age: '25',
+                boold: '5000',
+                equipment: '大宝剑',
+                Q: function () {
+                    console.log(this.name + '给予了敌人一次Q技能')
+                },
+                W: function () {
+                    console.log(this.name + '的护甲更加坚硬了')
+                },
+                E: function () {
+                    console.log(this.name + '居然旋转了起来，并且还唱着旋转跳跃我闭着眼？？？')
+                },
+                R: function () {
+                    console.log(this.name + '大喊吃我大宝剑！！！')
+                },
+                hurt: function () {
+                    console.log(this['boold'] + '的血量可真不少啊')
+                }
+            }
+            console.log(hero.name);
+            console.log(hero.age);
+            console.log(hero['boold']);
+            console.log(hero['equipment']);
+            hero.Q();
+            hero.W();
+            hero.E();
+            hero.R();
+            hero.hurt(); */
+
+            /*function createHero(name,weapon,equipment,blood) {// 工厂方法创建对象
+                var hero = new Object(); // 构造函数返回空对象
+                //设置对象属性
+                hero.name = name;
+                hero.weapon = weapon;
+                hero.equipment = equipment;
+                hero.blood = blood;
+                //设置对象方法
+                hero.attack = function () {
+                    console.log(this.name + '发出了一下攻击');
+                }
+                hero.run = function () {
+                    console.log(this.name + '大喊道：\"打不过了，快跑！\"');
+                }
+                return hero;
+            }
+            var hero1 = createHero('盖伦', '大宝剑', ['黑色切割者', '狂徒铠甲', '荆棘之甲'],'5000');
+            var hero2 = createHero('德莱厄斯', '断头斧', ['黑色切割者', '亡者板甲', '水影之靴'], '4500');
+            console.log(hero1.name);
+            console.log(hero1.weapon);
+            console.log(hero1.equipment);
+            console.log(hero1.blood);
+            hero1.attack();
+            hero1.run();*/
+
+            /*function Hero(name,weapon,equipment,blood) {//自定义构造函数
+                this.name = name;
+                this.weapon = weapon;
+                this.equipment = equipment;
+                this.blood = blood;
+                this.attack = function () {
+                    console.log(this.name + '：攻击');
+                }
+                this.run = function () {
+                    console.log(this.name + '：快点跑');
+                }
+            }
+            var hero1 = new Hero('亚索', '剑', ['斯缇维克电刃', '轻甲'], '2000');
+            console.log(hero1.name);
+            console.log(hero1.weapon);
+            console.log(hero1.equipment);
+            console.log(hero1.blood);
+            hero1.attack();
+            hero1.run();*/
+
+
+//___________________________我是分割线 _________________________________            
+            //var student = {//字面量方法re
+            //    name: '小白',
+            //    age: '20',
+            //    sex: '男',
+            //    do: function () {
+            //        console.log(this.name + '在学习');
+            //    }
+            //}
+            //console.log(student.name);
+            //console.log(student.age);
+            //console.log(student.sex);
+            //student.do();
+
+            //var student = new Object();//构造函数方法re
+            //student.name = '小白';
+            //student.age = '20';
+            //student.sex = '男';
+            //student.do = function () {
+            //    console.log(this.name + '在学习');
+            //}
+            //console.log(student.name);
+            //console.log(student.age);
+            //console.log(student.sex);
+            //student.do();
+
+            //function creatStudent(name,age,sex) {//工厂方法re
+            //    var student = new Object();
+            //    student.name = name;
+            //    student.age = age;
+            //    student.sex = sex;
+            //    student.do = function () {
+            //        console.log(this.name + '在学习');
+            //    }
+            //    return student;
+            //}
+            //var student1 = creatStudent('小白', '20', '男');
+            //console.log(student1.name);
+            //console.log(student1.age);
+            //console.log(student1.sex);
+            //student1.do();
+            //var student2 = creatStudent('小红', '21', '女');
+            //console.log(student2.name);
+            //console.log(student2.age);
+            //console.log(student2.sex);
+            //student2.do();
+
+            //function Student(name,age,sex) {//自定义构造函数创建对象re
+            //    this.name = name;
+            //    this.age = age;
+            //    this.sex = sex;
+            //    this.do = function () {
+            //        console.log(this.name + '快学完了');
+            //    }
+            //}
+            //var student1 = new Student('大白', '22', '男')
+            //console.log(student1.name);
+            //console.log(student1.age);
+            //console.log(student1.sex);
+            //student1.do();
+//___________________________我是分割线 _________________________________
+            //var student = {
+            //    name: '大白',
+            //    sayHello: function () {
+            //        console.log(this.name + ':hello')
+            //    }
+            //}
+            //for (var key in student) {
+            //    console.log(key + '----' + student[key])
+            //}
+
+            //function Student(name) {
+            //    this.name = name;
+            //    this.sayHello = function () {
+            //        console.log(this.name + '：hello');
+            //    }
+            //}
+            //var student1 = new Student('大白');
+            //for (var key in student1) {
+            //    console.log(key + '----' + student1[key]);
+            ////}
+            ////___________________________________________________
+            //function formatDate(date) {//固定格式返回日期对象
+            //    if (! (date instanceof Date)) {
+            //        console.error('date不是日期对象');
+            //        return;
+            //    }
+            //    var year = date.getFullYear(),
+            //    month = (date.getMonth() + 1),
+            //    days = date.getDate(),
+            //    hours = date.getHours(),
+            //    minutes = date.getMinutes(),
+            //    seconds = date.getSeconds()
+            //    month = month < 10 ? '0' + month : month;
+            //    days = days < 10 ? '0' + days : days;
+            //    hours = hours < 10 ? '0' +  hours: hours;
+            //    minutes = minutes < 10 ? '0' + minutes : minutes;
+            //    seconds =  seconds< 10 ? '0' + seconds : seconds;
+            //    return year + '-' + month + '-' + days + ' ' + hours + ':' + minutes + ':' + seconds;
+            //}
+            //var nowDate = new Date();
+            //var dateStr = formatDate(nowDate);
+            //console.log(dateStr);
+            //————————————————————————————————————————————————————————
+            //function getInterval(start,end) {//计算时间差
+            //    var interval = end - start;
+            //    var intervalDays = Math.round(interval / 1000 / 60 / 60 / 24),
+            //    intervalHours = Math.round(interval / 1000 / 60 / 60 % 24),
+            //    intervalMinutes = Math.round(interval / 1000 / 60 % 60),
+            //    intervalSeconds = Math.round(interval / 1000 % 60)
+            //    return {
+            //        days: intervalDays,
+            //        hours: intervalHours,
+            //        minutes: intervalMinutes,
+            //        seconds: intervalSeconds,
+            //    }
+            //}
+            //var date1 = new Date();
+            //var date2 = new Date (2020,0,2,10,50,28);
+            //var msg = getInterval(date1,date2);
+            //console.log(msg);
+            //————————————————————————————————————————————————————————————————————
+            
+        </script>
+    </head>
+    <body>
+    </body>
+</html>
